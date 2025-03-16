@@ -105,8 +105,7 @@ impl<I2C: I2c> AdafruitAD569x<I2C> {
 
 impl<I2C: I2c> AdafruitAD569x<I2C> {
     fn write(&mut self, command: Command, data: u16) -> Result<(), I2C::Error> {
-        let high_byte = ((data >> 8) & 0xFF) as u8;
-        let low_byte = (data & 0xFF) as u8;
+        let [high_byte, low_byte] = data.to_be_bytes();
 
         self.i2c
             .write(self.addr, &[command as u8, high_byte, low_byte])
