@@ -97,7 +97,7 @@ impl<I2C: I2c> AdafruitAD569x<I2C> {
         gain_2x: bool,
     ) -> Result<(), I2C::Error> {
         let data =
-            0x0u16 | ((mode as u16) << 13) | ((enable_ref as u16) << 12) | (gain_2x as u16) << 11;
+            0x0u16 | ((mode as u16) << 13) | ((!enable_ref as u16) << 12) | (gain_2x as u16) << 11;
 
         self.write(Command::WriteControl, data)
     }
